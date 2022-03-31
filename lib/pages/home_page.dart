@@ -4,6 +4,7 @@ import 'package:news_api/models/news_model.dart';
 import 'package:news_api/pages/favorites_page.dart';
 import 'package:news_api/services/api_service.dart';
 import 'package:news_api/widgets/news_list.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../widgets/custom_search_delegate.dart';
 
@@ -44,8 +45,11 @@ class HomePage extends StatelessWidget {
           icon: const Icon(Icons.star_border),
           color: iconColor,
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: ((context) => FavoritesNewsPage())));
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: FavoritesNewsPage()));
           },
         ),
       ),

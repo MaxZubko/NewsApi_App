@@ -10,3 +10,8 @@ const kBoxDecorationShadow = BoxDecoration(color: Colors.white, boxShadow: [
     blurRadius: 3.0,
   ),
 ]);
+
+const kTextStyle = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontSize: 16.0,
+);

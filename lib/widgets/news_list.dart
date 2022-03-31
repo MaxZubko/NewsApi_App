@@ -58,13 +58,7 @@ Widget newsListWidget(AsyncSnapshot<List<ArticleModel>> snapshot) {
               const SizedBox(
                 height: 8.0,
               ),
-              Text(
-                articles[index].title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-              )
+              Text(articles[index].title, style: kTextStyle)
             ],
           ),
         ),
