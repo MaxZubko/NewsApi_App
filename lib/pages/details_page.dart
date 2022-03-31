@@ -83,7 +83,7 @@ class _DetailPage extends State<DetailPage> {
                   height: 10.0,
                 ),
                 Text(
-                  widget.articles.description,
+                  widget.articles.description ?? 'No info',
                   style: const TextStyle(
                     fontSize: 16.0,
                   ),

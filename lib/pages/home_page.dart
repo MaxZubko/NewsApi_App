@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_api/constants.dart';
 import 'package:news_api/models/news_model.dart';
 import 'package:news_api/pages/favorites_page.dart';
+import 'package:news_api/pages/sign_in/sign_in.dart';
 import 'package:news_api/services/api_service.dart';
 import 'package:news_api/widgets/news_list.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../bloc/auth_bloc/auth_bloc.dart';
+import '../bloc/auth_bloc/auth_event.dart';
+import '../bloc/auth_bloc/auth_state.dart';
 import '../widgets/custom_search_delegate.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,6 +20,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       appBar: AppBar(
         title: RichText(
@@ -39,6 +45,13 @@ class HomePage extends StatelessWidget {
             onPressed: () {
               showSearch(context: context, delegate: CustomSearchDelegate());
             },
+          ),
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            color: iconColor,
+            onPressed: () {
+              context.read<AuthBloc>().add(SignOutRequested());
+            },
           )
         ],
         leading: IconButton(
@@ -53,20 +66,29 @@ class HomePage extends StatelessWidget {
           },
         ),
       ),
-      body: FutureBuilder<List<ArticleModel>>(
-        future: client.getArticle(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return newsListWidget(snapshot);
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('${snapshot.error}'),
-            );
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is UnAutthenticated) {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const SignIn()),
+                (route) => false);
           }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
         },
+        child: FutureBuilder<List<ArticleModel>>(
+          future: client.getArticle(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return newsListWidget(snapshot);
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('${snapshot.error}'),
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
       ),
     );
   }
