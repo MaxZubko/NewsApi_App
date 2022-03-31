@@ -1,68 +1,97 @@
 import 'package:flutter/material.dart';
+import 'package:news_api/constants.dart';
 import 'package:news_api/models/news_model.dart';
+import 'package:news_api/widgets/snack_bar.dart';
 
 import '../repositories/firestore_repository.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final ArticleModel articles;
   String? source;
 
-  DetailPage({required this.articles, this.source});
+  DetailPage({Key? key, required this.articles, this.source}) : super(key: key);
+
+  @override
+  State<DetailPage> createState() => _DetailPage();
+}
+
+class _DetailPage extends State<DetailPage> {
+  bool _addToFavorites = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          articles.source.name,
-          style: const TextStyle(color: Colors.black),
+          widget.articles.source.name,
+          style: const TextStyle(color: iconColor),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
-        leading: const BackButton(color: Colors.black),
+        leading: const BackButton(color: iconColor),
         actions: [
           IconButton(
-            icon: const Icon(Icons.star_border),
-            color: Colors.black,
+            icon: Icon(_addToFavorites ? Icons.star : Icons.star_border),
+            color: iconColor,
             onPressed: () {
+              setState(() {
+                _addToFavorites = !_addToFavorites;
+                showSnackBarAddFavorites(context);
+              });
               Database().addNewsToFavorite(
-                  articles.urlToImage ??
+                  widget.articles.urlToImage ??
                       'https://mizez.com/custom/mizez/img/general/no-image-available.png',
-                  source,
-                  articles.title,
-                  articles.description);
+                  widget.source,
+                  widget.articles.title,
+                  widget.articles.description);
             },
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 200.0,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(articles.urlToImage ??
-                        'https://mizez.com/custom/mizez/img/general/no-image-available.png'),
-                    fit: BoxFit.cover),
-                borderRadius: BorderRadius.circular(12.0),
-              ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 200.0,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(widget.articles.urlToImage ??
+                      'https://mizez.com/custom/mizez/img/general/no-image-available.png'),
+                  fit: BoxFit.cover),
             ),
-            const SizedBox(
-              height: 8.0,
+          ),
+          const SizedBox(
+            height: 15.0,
+          ),
+          SafeArea(
+              child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              children: [
+                Text(widget.articles.title,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold)),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                Divider(
+                  height: 1,
+                  color: Colors.grey[400],
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  widget.articles.description,
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              articles.description,
-              style: const TextStyle(
-                fontSize: 16.0,
-              ),
-            ),
-          ],
-        ),
+          )),
+        ],
       ),
     );
   }

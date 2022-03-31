@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_api/constants.dart';
 import 'package:news_api/models/news_model.dart';
 import 'package:news_api/pages/favorites_page.dart';
 import 'package:news_api/services/api_service.dart';
@@ -20,22 +21,20 @@ class HomePage extends StatelessWidget {
           TextSpan(
               text: 'Flutter',
               style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20)),
+                  color: iconColor, fontWeight: FontWeight.bold, fontSize: 20)),
           TextSpan(
               text: 'News',
               style: TextStyle(
-                  color: Colors.blue,
+                  color: secondaryColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 20))
         ])),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: primaryColor,
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            color: Colors.black,
+            color: iconColor,
             onPressed: () {
               showSearch(context: context, delegate: CustomSearchDelegate());
             },
@@ -43,7 +42,7 @@ class HomePage extends StatelessWidget {
         ],
         leading: IconButton(
           icon: const Icon(Icons.star_border),
-          color: Colors.black,
+          color: iconColor,
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: ((context) => FavoritesNewsPage())));

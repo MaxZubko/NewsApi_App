@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_api/constants.dart';
 
 import 'package:news_api/pages/details_page.dart';
 
@@ -24,15 +25,7 @@ Widget newsListWidget(AsyncSnapshot<List<ArticleModel>> snapshot) {
         child: Container(
           margin: const EdgeInsets.all(12.0),
           padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.0),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 3.0,
-                ),
-              ]),
+          decoration: kBoxDecorationShadow,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,13 +45,13 @@ Widget newsListWidget(AsyncSnapshot<List<ArticleModel>> snapshot) {
               Container(
                 padding: const EdgeInsets.all(6.0),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: secondaryColor,
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Text(
                   articles[index].source.name,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: primaryColor,
                   ),
                 ),
               ),
