@@ -88,24 +88,13 @@ class _SignUpState extends State<SignUp> {
                                     labelStyle: const TextStyle(
                                         color: secondaryColor,
                                         fontWeight: FontWeight.w700),
-                                    enabledBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: secondaryColor,
-                                      ),
-                                    ),
-                                    focusedBorder: const UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: secondaryColor,
-                                    )),
+                                    enabledBorder: kUnderlineInputBorder,
+                                    focusedBorder: kUnderlineInputBorder,
                                     focusedErrorBorder:
-                                        const UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                      color: Colors.red,
-                                    )),
-                                    errorBorder: const UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: Colors.red,
-                                    ))),
+                                        kUnderlineInputBorder.copyWith(
+                                            borderSide: const BorderSide(
+                                                color: Colors.red)),
+                                    errorBorder: kUnderlineInputBorder),
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
@@ -140,22 +129,13 @@ class _SignUpState extends State<SignUp> {
                                     labelStyle: const TextStyle(
                                         color: secondaryColor,
                                         fontWeight: FontWeight.w700),
-                                    enabledBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: secondaryColor,
-                                      ),
-                                    ),
-                                    focusedBorder: const UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                      color: secondaryColor,
-                                    )),
+                                    enabledBorder: kUnderlineInputBorder,
+                                    focusedBorder: kUnderlineInputBorder,
                                     focusedErrorBorder:
-                                        const UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.red)),
-                                    errorBorder: const UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.red))),
+                                        kUnderlineInputBorder.copyWith(
+                                            borderSide: const BorderSide(
+                                                color: Colors.red)),
+                                    errorBorder: kUnderlineInputBorder),
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {

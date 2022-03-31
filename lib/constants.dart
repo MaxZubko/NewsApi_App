@@ -15,3 +15,6 @@ const kTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 16.0,
 );
+
+const kUnderlineInputBorder =
+    UnderlineInputBorder(borderSide: BorderSide(color: secondaryColor));
