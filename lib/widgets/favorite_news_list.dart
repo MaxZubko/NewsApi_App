@@ -1,25 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:news_api/pages/favorites_details_page.dart';
 
-import 'package:news_api/pages/details_page.dart';
-
-import '../models/news_model.dart';
-
-Widget newsListWidget(AsyncSnapshot<List<ArticleModel>> snapshot) {
-  List<ArticleModel>? articles = snapshot.data;
+Widget favoriteNewsList(AsyncSnapshot<QuerySnapshot> snapshot) {
   return ListView.builder(
-    itemCount: articles!.length,
+    itemCount: snapshot.data?.docs.length,
     itemBuilder: (context, index) {
-      String urlToImage = articles[index].urlToImage ??
+      QueryDocumentSnapshot<Object?> documentSnapshot =
+          snapshot.data!.docs[index];
+      String urlToImage = documentSnapshot['urlToImage'] ??
           'https://mizez.com/custom/mizez/img/general/no-image-available.png';
       return InkWell(
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => DetailPage(
-                        articles: articles[index],
-                        source: articles[index].source.name,
-                      )));
+                  builder: (context) =>
+                      FavoritesDetailPage(documentSnapshot: documentSnapshot)));
         },
         child: Container(
           margin: const EdgeInsets.all(12.0),
@@ -56,7 +53,7 @@ Widget newsListWidget(AsyncSnapshot<List<ArticleModel>> snapshot) {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Text(
-                  articles[index].source.name,
+                  documentSnapshot['source'],
                   style: const TextStyle(
                     color: Colors.white,
                   ),
@@ -66,7 +63,7 @@ Widget newsListWidget(AsyncSnapshot<List<ArticleModel>> snapshot) {
                 height: 8.0,
               ),
               Text(
-                articles[index].title,
+                documentSnapshot['title'],
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16.0,

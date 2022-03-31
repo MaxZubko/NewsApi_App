@@ -45,10 +45,8 @@ class HomePage extends StatelessWidget {
           icon: const Icon(Icons.star_border),
           color: Colors.black,
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: ((context) => const FavoritesNewsPage())));
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => FavoritesNewsPage())));
           },
         ),
       ),

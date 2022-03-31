@@ -1,20 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:news_api/models/news_model.dart';
 
 import '../repositories/firestore_repository.dart';
 
-class DetailPage extends StatelessWidget {
-  final ArticleModel articles;
-  String? source;
+class FavoritesDetailPage extends StatelessWidget {
+  QueryDocumentSnapshot<Object?> documentSnapshot;
 
-  DetailPage({required this.articles, this.source});
+  FavoritesDetailPage({Key? key, required this.documentSnapshot})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          articles.source.name,
+          documentSnapshot['source'],
           style: const TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -22,15 +22,11 @@ class DetailPage extends StatelessWidget {
         leading: const BackButton(color: Colors.black),
         actions: [
           IconButton(
-            icon: const Icon(Icons.star_border),
+            icon: const Icon(Icons.delete),
             color: Colors.black,
             onPressed: () {
-              Database().addNewsToFavorite(
-                  articles.urlToImage ??
-                      'https://mizez.com/custom/mizez/img/general/no-image-available.png',
-                  source,
-                  articles.title,
-                  articles.description);
+              Database().deleteNewsFromFavorite(documentSnapshot.id);
+              Navigator.pop(context);
             },
           )
         ],
@@ -46,7 +42,7 @@ class DetailPage extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: NetworkImage(articles.urlToImage ??
+                    image: NetworkImage(documentSnapshot['urlToImage'] ??
                         'https://mizez.com/custom/mizez/img/general/no-image-available.png'),
                     fit: BoxFit.cover),
                 borderRadius: BorderRadius.circular(12.0),
@@ -56,7 +52,7 @@ class DetailPage extends StatelessWidget {
               height: 8.0,
             ),
             Text(
-              articles.description,
+              documentSnapshot['description'],
               style: const TextStyle(
                 fontSize: 16.0,
               ),
